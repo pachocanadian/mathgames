@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Change 🪙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button {  
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col text-center">
+                <h1 id="target" class="bg-warning"></h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col"><img src="img/toonie.png" class="img-fluid"></div>
+            <div class="col"><img src="img/loonie.png" class="img-fluid"></div>
+            <div class="col"><img src="img/quarter.png" class="img-fluid"></div>
+            <div class="col"><img src="img/dime.png" class="img-fluid"></div>
+            <div class="col"><img src="img/nickel.png" class="img-fluid"></div>
+        </div>
+        <div class="row">
+            <div class="col text-center"><input type="number" id="toonie" value="0" min="0"
+                    class="form-control text-center"></div>
+            <div class="col text-center"><input type="number" id="loonie" value="0" min="0"
+                    class="form-control text-center"></div>
+            <div class="col text-center"><input type="number" id="quarter" value="0" min="0"
+                    class="form-control text-center"></div>
+            <div class="col text-center"><input type="number" id="dime" value="0" min="0"
+                    class="form-control text-center"></div>
+            <div class="col text-center"><input type="number" id="nickel" value="0" min="0"
+                    class="form-control text-center"></div>
+        </div>
+        <div class="row mt-3">
+            <button type="button" class="btn btn-primary" id="check"><i class="bi bi-check"></i> Check</button>
+        </div>
+        <div class="row mt-3">
+            <button type="button" class="btn btn-success" id="reset"><i class="bi bi-arrow-clockwise"></i> Reset</button>
+        </div>
+    </div>
+
+    <script src="img/https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="img/https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            var dollar_target = Math.floor(Math.random() * 1000) + 1;
+            var format_target = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
+                dollar_target / 100.0
+            );
+            var rounded_target = Math.round(dollar_target / 5.0) * 5.0;
+
+            $('#target').text(format_target + " (round)").attr('data-target', rounded_target);
+
+            $('button#check').on('click', function(){
+                var toonie = parseFloat($('#toonie').val());
+                var loonie = parseFloat($('#loonie').val());
+                var quarter = parseFloat($('#quarter').val());
+                var dime = parseFloat($('#dime').val());
+                var nickel = parseFloat($('#nickel').val());
+
+                var amount = (toonie * 200) + (loonie * 100) + (quarter * 25) + (dime * 10) + (nickel * 5);
+                var target = parseFloat($('#target').attr('data-target'));
+
+                if(amount == target)
+                {
+                    alert('CORRECT!');
+                }
+                else
+                {
+                    var current_amount = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
+                        amount / 100.0
+                    );
+                    alert('INCORRECT! You currently have ' + current_amount);
+                }
+
+            });
+
+            $('button#reset').on('click', function(){
+                location.reload();
+            });
+
+        });
+    </script>
+</body>
+
+</html>
