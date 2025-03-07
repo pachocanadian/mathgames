@@ -9,8 +9,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style type="text/css">
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button {  
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
             opacity: 1;
         }
     </style>
@@ -18,6 +18,42 @@
 
 <body>
 
+    <div class="modal fade" id="successDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-success text-white w-100" id="successDialogLabel">SUCCESS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="success-graphic" src="img/success1.png" class="img-fluid">
+                    <h3 class="text-center">Congratulations! You have the exact amount.</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="failureDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-danger text-white w-100" id="failureDialogLabel">TRY AGAIN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="current-value"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form onsubmit="$('button#check').click(); return false;">
     <div class="container-fluid">
         <div class="row">
             <div class="col text-center">
@@ -49,11 +85,14 @@
         </div>
         <div class="row mt-3">
             <button type="button" class="btn btn-primary" id="check"><i class="bi bi-check"></i> Check</button>
+            <input type="submit" class="d-none">
         </div>
         <div class="row mt-3">
-            <button type="button" class="btn btn-success" id="reset"><i class="bi bi-arrow-clockwise"></i> Reset</button>
+            <button type="button" class="btn btn-success" id="reset"><i class="bi bi-arrow-clockwise"></i>
+                Reset</button>
         </div>
     </div>
+    </form>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -69,7 +108,7 @@
 
             $('#target').text(format_target + " (exact)").attr('data-target', dollar_target);
 
-            $('button#check').on('click', function(){
+            $('button#check').on('click', function () {
                 var toonie = parseFloat($('#toonie').val());
                 var loonie = parseFloat($('#loonie').val());
                 var quarter = parseFloat($('#quarter').val());
@@ -80,21 +119,24 @@
                 var amount = (toonie * 200) + (loonie * 100) + (quarter * 25) + (dime * 10) + (nickel * 5) + (penny * 1);
                 var target = parseFloat($('#target').attr('data-target'));
 
-                if(amount == target)
-                {
-                    alert('CORRECT!');
+                if (amount == target) {
+                    $('#success-graphic').attr('src', 'img/success' + Math.floor((Math.random() * 7) + 1) + '.png');
+                    $('#successDialog').modal('show');
+                    $('#successDialog').on('hidden.bs.modal', function () {
+                        location.reload();
+                    });
                 }
-                else
-                {
+                else {
                     var current_amount = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
                         amount / 100.0
                     );
-                    alert('INCORRECT! You currently have ' + current_amount);
+                    $('#current-value').text('You currently have ' + current_amount);                    
+                    $('#failureDialog').modal('show');
                 }
 
             });
 
-            $('button#reset').on('click', function(){
+            $('button#reset').on('click', function () {
                 location.reload();
             });
 
