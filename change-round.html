@@ -18,6 +18,41 @@
 
 <body>
 
+    <div class="modal fade" id="successDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-success text-white w-100" id="successDialogLabel">SUCCESS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="success-graphic" src="img/success1.png" class="img-fluid">
+                    <h3 class="text-center">Congratulations! You got it.</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="failureDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-danger text-white w-100" id="failureDialogLabel">TRY AGAIN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="current-value"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col text-center">
@@ -79,14 +114,19 @@
 
                 if(amount == target)
                 {
-                    alert('CORRECT!');
+                    $('#success-graphic').attr('src', 'img/success' + Math.floor((Math.random() * 7) + 1) + '.png');
+                    $('#successDialog').modal('show');
+                    $('#successDialog').on('hidden.bs.modal', function () {
+                        location.reload();
+                    });
                 }
                 else
                 {
                     var current_amount = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
                         amount / 100.0
                     );
-                    alert('INCORRECT! You currently have ' + current_amount);
+                    $('#current-value').text('You currently have ' + current_amount);                    
+                    $('#failureDialog').modal('show');
                 }
 
             });
