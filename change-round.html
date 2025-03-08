@@ -19,7 +19,7 @@
             vertical-align: middle;
         }
         
-    </style>
+    </style>    
 </head>
 
 <body>
@@ -95,6 +95,7 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="common.js"></script>
     <script>
         $(document).ready(function () {
             var dollar_target = Math.floor(Math.random() * 1000) + 1;
@@ -116,7 +117,7 @@
                 var target = parseFloat($('#target').attr('data-target'));
 
                 if (amount == target) {
-                    $('#success-graphic').attr('src', 'img/success' + Math.floor((Math.random() * 7) + 1) + '.png');
+                    $('#success-graphic').attr('src', 'img/success' + getRandomInt(how_many_success_graphics()) + '.png');
                     $('#successDialog').modal('show');
                     $('#successDialog').on('hidden.bs.modal', function () {
                         location.reload();
