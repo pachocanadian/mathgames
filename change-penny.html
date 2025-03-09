@@ -29,17 +29,17 @@
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 bg-success text-white w-100" id="successDialogLabel">SUCCESS</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </td>
-                    <div class="modal-body">
-                        <img id="success-graphic" src="img/success1.png" class="img-fluid">
-                        <h3 class="text-center">Congratulations! You have the exact amount.</h3>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-body">
+                    <img id="success-graphic" src="img/success1.png" class="img-fluid">
+                    <h3 class="text-center">Congratulations! You have the exact amount.</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <div class="modal fade" id="failureDialog" tabindex="-1" aria-hidden="true">
@@ -78,7 +78,7 @@
             <tr>
                 <td><input type="number" id="toonie" value="0" min="0" class="form-control text-center"></td>
                 <td><input type="number" id="loonie" value="0" min="0" class="form-control text-center"></td>
-                <td><input type="number" id="quarter"value="0" min="0" class="form-control text-center"></td>
+                <td><input type="number" id="quarter" value="0" min="0" class="form-control text-center"></td>
                 <td><input type="number" id="dime" value="0" min="0" class="form-control text-center"></td>
                 <td><input type="number" id="nickel" value="0" min="0" class="form-control text-center"></td>
                 <td><input type="number" id="penny" value="0" min="0" class="form-control text-center"></td>
@@ -104,6 +104,7 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="common.js"></script>
     <script>
         $(document).ready(function () {
             var dollar_target = Math.floor(Math.random() * 1000) + 1;
@@ -125,7 +126,7 @@
                 var target = parseFloat($('#target').attr('data-target'));
 
                 if (amount == target) {
-                    $('#success-graphic').attr('src', 'img/success' + Math.floor((Math.random() * 7) + 1) + '.png');
+                    $('#success-graphic').attr('src', 'img/success' + getRandomInt(how_many_success_graphics()) + '.png');
                     $('#successDialog').modal('show');
                     $('#successDialog').on('hidden.bs.modal', function () {
                         location.reload();
