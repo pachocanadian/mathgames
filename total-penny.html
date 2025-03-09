@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Change 🪙</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style type="text/css">
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            opacity: 1;
+        }
+
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="modal fade" id="successDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-success text-white w-100" id="successDialogLabel">SUCCESS</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="success-graphic" src="img/success1.png" class="img-fluid">
+                    <h3 class="text-center">Congratulations! You have the exact amount.</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="modal fade" id="failureDialog" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-danger text-white">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 bg-danger text-white w-100" id="failureDialogLabel">TRY AGAIN</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>That is incorrect</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form onsubmit="$('button#check').click(); return false;">
+        <table class="table table-borderless">
+            <tr>
+                <td colspan="6" class="bg-warning">
+                    <input type="number" id="target" class="form-control text-center" min="0.00" placeholder="0.00"
+                        step="0.01" />
+                </td>
+            </tr>
+
+            <tr>
+                <td><img src="img/toonie.png" class="img-fluid" style="width:100%; height:auto;" title="toonie"></td>
+                <td><img src="img/loonie.png" class="img-fluid" style="width:95%; height:auto;" title="loonie"></td>
+                <td><img src="img/quarter.png" class="img-fluid" style="width:85%; height:auto;" title="quarter"></td>
+                <td><img src="img/dime.png" class="img-fluid" style="width:64%; height:auto;" title="dime"></td>
+                <td><img src="img/nickel.png" class="img-fluid" style="width:76%; height:auto;" title="nickel"></td>
+                <td><img src="img/penny.png" class="img-fluid" style="width:68%; height:auto;" title="penny"></td>
+            </tr>
+            <tr>
+                <td>
+                    <p id="toonie" class="h3"></p>
+                </td>
+                <td>
+                    <p id="loonie" class="h3"></p>
+                </td>
+                <td>
+                    <p id="quarter" class="h3">
+                </td>
+                <td>
+                    <p id="dime" class="h3">
+                </td>
+                <td>
+                    <p id="nickel" class="h3">
+                </td>
+                <td>
+                    <p id="penny" class="h3">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button type="button" class="btn btn-primary w-100" id="check"><i class="bi bi-check"></i>
+                        Check</button>
+                    <input type="submit" class="d-none">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button type="button" class="btn btn-success w-100" id="reset"><i class="bi bi-arrow-clockwise"></i>
+                        Reset</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="common.js"></script>
+    <script defer>
+        $(document).ready(function () {
+            var dollar_target = Math.floor(Math.random() * 1000) + 1;
+            var format_target = new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD" }).format(
+                dollar_target / 100.0
+            );
+
+            $('#target').text(format_target + " (exact)").attr('data-target', dollar_target);
+
+            var toonie = getRandomIntRange(0, 5);
+            var loonie = getRandomIntRange(0, 5);
+            var quarter = getRandomIntRange(0, 5);
+            var dime = getRandomIntRange(0, 5);
+            var nickel = getRandomIntRange(0, 5);
+            var penny = getRandomIntRange(0, 5);
+
+            $('#toonie').text(toonie).attr('data-value', toonie);
+            $('#loonie').text(loonie).attr('data-value', loonie);
+            $('#quarter').text(quarter).attr('data-value', quarter);
+            $('#dime').text(dime).attr('data-value', dime);
+            $('#nickel').text(nickel).attr('data-value', nickel);
+            $('#penny').text(penny).attr('data-value', penny);
+
+
+            $('button#check').on('click', function () {
+                var toonie = parseFloat($('#toonie').attr('data-value'));
+                var loonie = parseFloat($('#loonie').attr('data-value'));
+                var quarter = parseFloat($('#quarter').attr('data-value'));
+                var dime = parseFloat($('#dime').attr('data-value'));
+                var nickel = parseFloat($('#nickel').attr('data-value'));
+                var penny = parseFloat($('#penny').attr('data-value'));
+
+                var amount = (toonie * 200) + (loonie * 100) + (quarter * 25) + (dime * 10) + (nickel * 5) + (penny * 1);
+                amount /= 100.00;
+                var target = parseFloat($('#target').val());
+
+                if (amount == target) {
+                    $('#success-graphic').attr('src', 'img/success' + getRandomInt(how_many_success_graphics()) + '.png');
+                    $('#successDialog').modal('show');
+                    $('#successDialog').on('hidden.bs.modal', function () {
+                        location.reload();
+                    });
+                }
+                else {
+                    $('#failureDialog').modal('show');
+                }
+
+            });
+
+            $('button#reset').on('click', function () {
+                location.reload();
+            });
+
+        });
+    </script>
+</body>
+
+</html>
