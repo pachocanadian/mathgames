@@ -22,5 +22,5 @@ function getRandomIntRange(min, max) {
 }
 
 function how_many_success_graphics() {
-  return 11;
+  return 15;
 }
