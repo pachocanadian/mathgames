@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Multiplication</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style type="text/css">
+        BODY {
+            font-family: 'Audiowide', sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .mul-symbol {
+            position: absolute;
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.6em;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="problemForm">
+
+        <div class="container-fluid">
+            <div id="equation" class="text-center d-flex flex-column border border-dark"
+                style="font-size: 20vh; line-height: 100%;">
+                <div class=""><span id="number_1" class="w-50 text-end">10</span></div>
+                <div class="position-relative"><span class="mul-symbol">×</span><span id="number_2" class="w-50 text-end">8</span></div>
+                <div class="bg-dark w-100" style="height:1vh;"></div>
+                <div><input type="number" id="answer" class="form-control text-center w-100" style="font-size: 20vh;">
+                </div>
+
+            </div>
+        </div>
+
+    </form>
+
+    <div class="text-center mt-3">
+        <button id="checkBtn" type="button" class="btn btn-primary">Check Answer</button>        
+    </div>
+    <div class="text-center mt-2">
+        <span class="badge bg-success me-2">Correct: <span id="correctCount">0</span></span>
+        <span class="badge bg-danger">Incorrect: <span id="incorrectCount">0</span></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="common.js"></script>
+    <script>
+        function generateProblem() {
+            var num1 = Math.floor(Math.random() * 9) + 1;
+            var num2 = Math.floor(Math.random() * 9) + 1;
+            $('#number_1').text(num1);
+            $('#number_2').text(num2);
+            $('#answer').val('');
+        }
+        $(document).ready(function () {
+            var correctCount = 0;
+            var incorrectCount = 0;
+
+            function updateScore() {
+                $('#correctCount').text(correctCount);
+                $('#incorrectCount').text(incorrectCount);
+            }
+
+            generateProblem();
+            updateScore();
+
+            function checkAnswer() {
+                var num1 = parseInt($('#number_1').text(), 10);
+                var num2 = parseInt($('#number_2').text(), 10);
+                var answer = parseInt($('#answer').val(), 10);
+                if (isNaN(answer)) {
+                    alert('Please enter a number!');
+                    return;
+                }
+                if (num1 * num2 === answer) {
+                    correctCount += 1;
+                    alert('Correct!');
+                    generateProblem();
+                } else {
+                    incorrectCount += 1;
+                    alert('Wrong!' + ' The correct answer to ' + num1 + ' × ' + num2 + ' = ' + (num1 * num2) + '.');
+                }
+                updateScore();
+            }
+
+            $('#checkBtn').click(checkAnswer);
+            $('#problemForm').submit(function(event) {
+                event.preventDefault();
+                $('#checkBtn').click();
+            });
+        });
+    </script>
+</body>
+
+</html>
